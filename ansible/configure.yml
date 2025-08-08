@@ -1,0 +1,14 @@
+---
+- name: Configure Lab Instances
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+    - name: Install Python 3.10 and pip
+      apt:
+        name:
+          - python3.10
+          - python3-pip
+        state: present
