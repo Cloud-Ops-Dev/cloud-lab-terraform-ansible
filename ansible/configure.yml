@@ -1,13 +1,13 @@
 ---
 - name: Configure Lab Instances
   hosts: all
-  become: yes
+  become: true
   tasks:
     - name: Update package cache
-      apt:
-        update_cache: yes
+      ansible.builtin.apt:
+        update_cache: true
     - name: Install Python 3.10 and pip
-      apt:
+      ansible.builtin.apt:
         name:
           - python3.10
           - python3-pip
