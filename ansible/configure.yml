@@ -6,9 +6,16 @@
     - name: Update package cache
       ansible.builtin.apt:
         update_cache: true
+    - name: Add deadsnakes PPA for Python 3.10
+      apt_repository:
+        repo: ppa:deadsnakes/ppa
+        state: present
+      become: yes
     - name: Install Python 3.10 and pip
-      ansible.builtin.apt:
+      apt:
         name:
           - python3.10
           - python3-pip
         state: present
+        update_cache: yes
+      become: yes
