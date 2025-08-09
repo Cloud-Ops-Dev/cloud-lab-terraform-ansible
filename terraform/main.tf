@@ -33,5 +33,5 @@ resource "ibm_is_instance" "lab_vsi" {
   }
   vpc  = ibm_is_vpc.lab_vpc.id
   zone = "${var.ibm_region}-1"
-  keys = [var.ssh_key_name]
+  keys = ["r006-ce9f3f60-822a-415c-9787-598c0c5b9d52"]
 }
