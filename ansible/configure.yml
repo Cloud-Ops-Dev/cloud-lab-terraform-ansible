@@ -11,26 +11,19 @@
         repo: ppa:deadsnakes/ppa
         state: present
       become: yes
-    - name: Install Python 3.10
+    - name: Install Python 3.10 and venv for ensurepip
       apt:
-        name: python3.10
+        name:
+          - python3.10
+          - python3.10-venv
         state: present
         update_cache: yes
       become: yes
     - name: Ensure pip is bootstrapped for Python 3.10
-      ansible.builtin.command: /usr/bin/python3.10 -m ensurepip --upgrade
+      ansible.builtin.command: python3.10 -m ensurepip --upgrade --default
       args:
         creates: /usr/local/bin/pip3.10
       become: yes
-    - name: Install pip for Python 3.10
-      ansible.builtin.pip:
-        name: pip
-        executable: /usr/bin/python3.10 -m pip
-        state: latest
+    - name: Upgrade pip for Python 3.10
+      ansible.builtin.command: python3.10 -m pip install --upgrade pip
       become: yes
-    - name: Clean up (optional)
-      ansible.builtin.file:
-        path: /tmp/get-pip.py
-        state: absent
-      become: yes
-      when: false  # Disabled for debugging
