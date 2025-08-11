@@ -32,7 +32,7 @@
       ansible.builtin.command: /opt/python3.10-venv/bin/python -m pip install --upgrade pip
       become: yes
 
-    - name: Add venv bin directory to system-wide profile (optional)
+    - name: Add venv bin directory to system-wide profile
       ansible.builtin.lineinfile:
         path: /etc/profile.d/python3.10-venv.sh
         line: 'export PATH="/opt/python3.10-venv/bin:$PATH"'
