@@ -1,29 +1,34 @@
 ---
-- name: Configure Lab Instances
+- name: Configure Lab Instances with Python 3.10 and Pip
   hosts: all
   become: true
   tasks:
     - name: Update package cache
       ansible.builtin.apt:
         update_cache: true
+
     - name: Add deadsnakes PPA for Python 3.10
       apt_repository:
         repo: ppa:deadsnakes/ppa
         state: present
       become: yes
-    - name: Install Python 3.10 and venv for ensurepip
+
+    - name: Install Python 3.10
       apt:
-        name:
-          - python3.10
-          - python3.10-venv
+        name: python3.10
         state: present
         update_cache: yes
       become: yes
-    - name: Ensure pip is bootstrapped for Python 3.10
-      ansible.builtin.command: python3.10 -m ensurepip --upgrade --default
-      args:
-        creates: /usr/local/bin/pip3.10
-      become: yes
-    - name: Upgrade pip for Python 3.10
-      ansible.builtin.command: python3.10 -m pip install --upgrade pip
-      become: yes
+
+    - name: Install pip for Python 3.10 with --user flag to avoid system conflict
+      ansible.builtin.command: python3.10 -m pip install --upgrade --user pip
+      become: false  # Run as ubuntu user to use --user
+      register: pip_upgrade
+      changed_when: "'Successfully installed' in pip_upgrade.stdout"
+
+    - name: Add local bin to PATH for user if not already
+      ansible.builtin.lineinfile:
+        path: /home/ubuntu/.bashrc
+        line: 'export PATH=$PATH:/home/ubuntu/.local/bin'
+        state: present
+      become: false  # Run as ubuntu
