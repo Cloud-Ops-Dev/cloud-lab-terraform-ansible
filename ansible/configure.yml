@@ -18,15 +18,14 @@
         update_cache: yes
       become: yes
     - name: Install pip for Python 3.10
-      ansible.builtin.get_url:
-        url: https://bootstrap.pypa.io/get-pip.py
-        dest: /tmp/get-pip.py
+      ansible.builtin.pip:
+        name: pip
+        executable: /usr/bin/python3.10 -m ensurepip --upgrade
+        extra_args: --force-reinstall
       become: yes
-    - name: Run get-pip.py to install pip for Python 3.10
-      ansible.builtin.command: python3.10 /tmp/get-pip.py
-      become: yes
-    - name: Clean up get-pip.py
+    - name: Clean up (optional)
       ansible.builtin.file:
         path: /tmp/get-pip.py
         state: absent
       become: yes
+      when: false  # Disable cleanup for now to debug
