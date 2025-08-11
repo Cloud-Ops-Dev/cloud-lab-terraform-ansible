@@ -1,8 +1,12 @@
-# Terraform
+# Terraform files to ignore
 *.tfstate
 *.tfstate.backup
+*.tfvars
+*.tfvars.json
+.terraform/
+terraform/.terraform.lock.hcl
 
-# Secrets
+# Sensitive keys & creds
 *.key
 *.pem
 
@@ -10,8 +14,14 @@
 ansible/hosts
 ansible/*.retry
 
-# Terraform
-.terraform/
-.terraform.lock.hclvenv/
+# Python virtual envs & caches
+venv/
 *.pyc
 __pycache__/
+
+# Editor and OS files
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
