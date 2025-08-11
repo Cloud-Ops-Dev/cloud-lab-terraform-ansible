@@ -1,5 +1,5 @@
 ---
-- name: Configure Lab Instances with Python 3.10 and Pip
+- name: Configure Lab Instances
   hosts: all
   become: true
   tasks:
@@ -13,22 +13,28 @@
         state: present
       become: yes
 
-    - name: Install Python 3.10
+    - name: Install Python 3.10 and venv
       apt:
-        name: python3.10
+        name:
+          - python3.10
+          - python3.10-venv
         state: present
         update_cache: yes
       become: yes
 
-    - name: Install pip for Python 3.10 with --user flag to avoid system conflict
-      ansible.builtin.command: python3.10 -m pip install --upgrade --user pip
-      become: false  # Run as ubuntu user to use --user
-      register: pip_upgrade
-      changed_when: "'Successfully installed' in pip_upgrade.stdout"
+    - name: Create a dedicated virtual environment for Python 3.10
+      ansible.builtin.command: python3.10 -m venv /opt/python3.10-venv
+      args:
+        creates: /opt/python3.10-venv/bin/activate
+      become: yes
 
-    - name: Add local bin to PATH for user if not already
+    - name: Upgrade pip inside the virtual environment
+      ansible.builtin.command: /opt/python3.10-venv/bin/python -m pip install --upgrade pip
+      become: yes
+
+    - name: Add venv bin directory to system-wide profile (optional)
       ansible.builtin.lineinfile:
-        path: /home/ubuntu/.bashrc
-        line: 'export PATH=$PATH:/home/ubuntu/.local/bin'
-        state: present
-      become: false  # Run as ubuntu
+        path: /etc/profile.d/python3.10-venv.sh
+        line: 'export PATH="/opt/python3.10-venv/bin:$PATH"'
+        create: yes
+      become: yes
