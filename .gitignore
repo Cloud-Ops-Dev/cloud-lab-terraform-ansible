@@ -12,4 +12,6 @@ ansible/*.retry
 
 # Terraform
 .terraform/
-.terraform.lock.hcl
+.terraform.lock.hclvenv/
+*.pyc
+__pycache__/
