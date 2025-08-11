@@ -1,0 +1,33 @@
+{
+    "InstanceStatuses": [
+        {
+            "AvailabilityZone": "us-east-1d",
+            "Operator": {
+                "Managed": false
+            },
+            "InstanceId": "i-02e2b874a2c38d922",
+            "InstanceState": {
+                "Code": 16,
+                "Name": "running"
+            },
+            "InstanceStatus": {
+                "Details": [
+                    {
+                        "Name": "reachability",
+                        "Status": "passed"
+                    }
+                ],
+                "Status": "ok"
+            },
+            "SystemStatus": {
+                "Details": [
+                    {
+                        "Name": "reachability",
+                        "Status": "passed"
+                    }
+                ],
+                "Status": "ok"
+            }
+        }
+    ]
+}
