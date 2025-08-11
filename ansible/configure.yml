@@ -17,15 +17,20 @@
         state: present
         update_cache: yes
       become: yes
+    - name: Ensure pip is bootstrapped for Python 3.10
+      ansible.builtin.command: /usr/bin/python3.10 -m ensurepip --upgrade
+      args:
+        creates: /usr/local/bin/pip3.10
+      become: yes
     - name: Install pip for Python 3.10
       ansible.builtin.pip:
         name: pip
-        executable: /usr/bin/python3.10 -m ensurepip --upgrade
-        extra_args: --force-reinstall
+        executable: /usr/bin/python3.10 -m pip
+        state: latest
       become: yes
     - name: Clean up (optional)
       ansible.builtin.file:
         path: /tmp/get-pip.py
         state: absent
       become: yes
-      when: false  # Disable cleanup for now to debug
+      when: false  # Disabled for debugging
