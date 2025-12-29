@@ -1,7 +1,7 @@
 # Cloud Lab: Terraform + Ansible for AWS EC2 and IBM VSI
 
 ## Overview
-This lab demonstrates provisioning an AWS EC2 instance (t2.micro, Ubuntu 22.04 in us-east-1) and an IBM Virtual Server Instance (VSI) (cx2-2x4, Ubuntu 22.04 in us-south-1) using Terraform, then configuring them with Ansible to install Python 3.10 and pip for AI projects (e.g., `llama.cpp`, `whisper-venv`). Built for hands-on learning on Hyprland (Ubuntu 24.04.2 LTS) Laptop with [VSCodium](images/VScodium.png).
+This lab demonstrates provisioning an AWS EC2 instance (t2.micro, Ubuntu 22.04 in us-east-1) and an IBM Virtual Server Instance (VSI) (cx2-2x4, Ubuntu 22.04 in us-south-1) using Terraform, then configuring them with Ansible to install Python 3.10 and pip for customer AI projects (e.g., `llama.cpp`, `whisper-venv`). Built as part of a customer solution test on a Hyprland (Ubuntu 24.04.2 LTS) Laptop with [VSCodium](images/VScodium.png).
 
 ## Prerequisites
 - AWS account with credentials configured (`~/.aws/credentials`).
@@ -37,16 +37,16 @@ This lab demonstrates provisioning an AWS EC2 instance (t2.micro, Ubuntu 22.04 i
 - Installed Python 3.10 and pip on both instances.
 - **Git Workflow**: Repo structured with `terraform/`, `ansible/`, `docs/`, committed and pushed to GitHub.
 
-## Challenges and Lessons Learned
+## Challenges and Solutions
 - **SSH Key Imports**: Region mismatches (AWS us-east-1 vs. us-east-2) and name vs. ID resolution in IBM Cloud—fixed by using key ID in `main.tf`.
 - **API Key Authentication**: Multiple keys tried; resolved by regenerating and verifying with `ibmcloud login --apikey <key> -r us-south`.
 - **Floating IP for VSI**: Private IP only; added floating IP and associated with network interface using IBM CLI.
-- **Security Group/ACL Rules**: SSH timed out due to default blocks—added inbound rules for port 22 from my IP.
+- **Security Group/ACL Rules**: SSH timed out due to default blocks—added inbound rules for port 22 from a trusted IP.
 - **Ansible Linting**: `ansible-lint` crashes fixed by version pinning and virtual env tweaks.
 - **Virtual Env Prompt Stacking**: zsh config caused `(venv)` multiplication—fixed by deactivating and resetting terminal.
 - **pip3.10 installation**: The error "Cannot uninstall pip X.X.X, RECORD file not found. Because the system-installed pip lacks a RECORD file that pip uses to track installed files. Installed in a virtual environment to resolve (venv)
 
-Overall, the lab highlighted the importance of region consistency, key management, and security configurations in multi-cloud setups.
+This lab demonstrates the importance of region consistency, key management, and security configurations in multi-cloud setups.
 
 ## Usage in Production
 - Use for AI labs (e.g., run `llama.cpp` on instances).
